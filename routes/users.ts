@@ -1,10 +1,9 @@
-const express = require('express')
+import express from 'express'
+import { ObjectId } from 'mongodb'
 
 const userRoutes = express.Router()
 
 const dbo = require('../db/conn')
-
-const ObjectId = require('mongodb').ObjectId
 
 userRoutes.route('/users').get(function (req, res) {
   let db_connect = dbo.getDb('PetPets')
@@ -21,7 +20,7 @@ userRoutes.route('/users').get(function (req, res) {
 
 userRoutes.route('/user/:id').get(function (req, res) {
   let db_connect = dbo.getDb()
-  let myquery = { _id: ObjectId(req.params.id) }
+  let myquery = { _id: new ObjectId(req.params.id) }
   db_connect.collection('users').findOne(myquery, function (err, result) {
     if (err) throw err
     res.json(result)
@@ -42,7 +41,7 @@ userRoutes.route('/user/add').post(function (req, response) {
 
 userRoutes.route('/update/:id').post(function (req, response) {
   let db_connect = dbo.getDb()
-  let myquery = { _id: ObjectId(req.params.id) }
+  let myquery = { _id: new ObjectId(req.params.id) }
   let newvalues = {
     $set: {
       name: req.body.name,
@@ -53,7 +52,7 @@ userRoutes.route('/update/:id').post(function (req, response) {
 
 userRoutes.route('/:id').delete((req, response) => {
   let db_connect = dbo.getDb()
-  let myquery = { _id: ObjectId(req.params.id) }
+  let myquery = { _id: new ObjectId(req.params.id) }
   db_connect.collection('users').deleteOne(myquery, function (err, obj) {
     if (err) throw err
     console.log('1 document deleted')
