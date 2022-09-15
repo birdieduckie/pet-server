@@ -5,7 +5,7 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
+  img: {
     type: String,
     required: true,
   },
@@ -17,9 +17,13 @@ const postSchema = new Schema({
   tags: {
     type: [String],
   },
-  publishdate: {
+  createdAt: {
     type: Date,
     default: Date.now,
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
   },
 })
 

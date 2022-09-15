@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 import Isemail from 'isemail'
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -37,7 +37,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  posts: {
+    type: Schema.Types.ObjectId,
+    ref: 'Post',
+  },
 })
 
-const User = mongoose.model('User', userSchema)
-export default User
+export const User = model('User', userSchema)
