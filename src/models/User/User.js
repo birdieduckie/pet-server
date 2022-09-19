@@ -1,5 +1,7 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose'
 import Isemail from 'isemail'
+
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   username: {
@@ -43,4 +45,4 @@ const userSchema = new Schema({
   },
 })
 
-export const User = model('User', userSchema)
+export const User = mongoose.model('User', userSchema)

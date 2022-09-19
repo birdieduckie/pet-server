@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import Comment from '../models/Comment/Comment.js'
+import { Comment } from '../models/Comment/Comment.js'
 
 // get all comments
 export const getComments = async (req, res) => {

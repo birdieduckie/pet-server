@@ -1,4 +1,6 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose' 
+
+const Schema = mongoose.Schema
 
 const commentSchema = new Schema({
   text: {
@@ -20,4 +22,4 @@ const commentSchema = new Schema({
   },
 })
 
-export const Comment = model('Comment', commentSchema)
+export const Comment = mongoose.model('Comment', commentSchema)
