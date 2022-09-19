@@ -7,23 +7,6 @@ export const getComments = async (req, res) => {
   res.status(200).json(comments)
 }
 
-// get a single comment
-export const getComment = async (req, res) => {
-  const { id } = req.params
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'No such comment' })
-  }
-
-  const comment = await Comment.findById(id)
-
-  if (!comment) {
-    return res.status(404).json({ error: 'No such comment' })
-  }
-
-  res.status(200).json(comment)
-}
-
 // create a new Comment
 export const createComment = async (req, res) => {
   const { text, createdAt, owner, toPost } = req.body

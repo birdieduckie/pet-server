@@ -1,20 +1,20 @@
 import express from 'express'
-
+import {
+  getPosts,
+  getPost,
+  createPost,
+  editPost,
+  deletePost,
+} from '../controllers/postsController'
 const posts = express.Router()
 
-posts.get('/', (req, res) => {
-  res.json({ mssg: 'all posts' })
-})
+posts.get('/', getPosts)
 
-posts.get('/:id', (req, res) => {
-  res.json({ mssg: 'get post by id' })
-})
+posts.get('/:id', getPost)
 
-posts.patch('/:id/edit', (req, res) => {
-  res.json({ mssg: 'edit post' })
-})
+posts.post('/newpost', createPost)
 
-posts.delete('/:id/delete', (req, res) => {
-  res.json({ mssg: 'delete post' })
-})
+posts.patch('/:id/edit', editPost)
+
+posts.delete('/:id/delete', deletePost)
 export default posts

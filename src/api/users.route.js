@@ -19,4 +19,5 @@ users.post('/signup', createUser)
 users.delete('/:id/delete', deleteUser)
 
 users.patch('/:id/edit', editUser)
+
 export default users

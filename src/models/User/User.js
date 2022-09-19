@@ -9,14 +9,6 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-  firstname: {
-    type: String,
-    required: true,
-  },
-  lastname: {
-    type: String,
-    required: true,
-  },
   avatar: {
     type: String,
   },
@@ -26,9 +18,6 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
     validate: [Isemail.validate, 'Please enter a valid email'],
-  },
-  phone: {
-    type: String,
   },
   password: {
     type: String,

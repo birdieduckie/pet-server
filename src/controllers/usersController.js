@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 import { User } from '../models/User/User.js'
 
 // get all users
@@ -28,26 +29,31 @@ export const getUser = async (req, res) => {
 export const createUser = async (req, res) => {
   const {
     username,
-    firstname,
-    lastname,
     avatar,
     email,
-    phone,
     password,
     registerdate,
   } = req.body
 
   try {
-    const user = await User.create({
+    const user = await User.findOne({ email, username })
+
+    if (user) {
+      res.status(400).json({ error: 'User already exists' })
+    }
+
+    const newUser = await User.create({
       username,
-      firstname,
-      lastname,
       avatar,
       email,
       phone,
-      password,
       registerdate,
     })
+
+    const salt = bcrypt.genSalt(10)
+
+    user.password = bcrypt.hash(password, salt)
+
     res.status(200).json(user)
   } catch (error) {
     res.status(400).json({ error: error.message })
