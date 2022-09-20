@@ -26,12 +26,12 @@ export const getPost = async (req, res) => {
 
 // create a new post
 export const createPost = async (req, res) => {
-  const { text, images, likes, tags, createdAt, owner } = req.body
+  const { text, img, likes, tags, createdAt, owner } = req.body
 
   try {
     const post = await Post.create({
       text,
-      images,
+      img,
       likes,
       tags,
       createdAt,
@@ -67,7 +67,7 @@ export const editPost = async (req, res) => {
     return res.status(404).json({ error: 'No such post' })
   }
 
-  const post = await POst.findByIdAndUpdate(id, { ...req.body })
+  const post = await Post.findByIdAndUpdate(id, { ...req.body })
 
   if (!post) {
     return res.status(404).json({ error: 'No such post' })

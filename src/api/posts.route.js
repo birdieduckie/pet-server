@@ -5,7 +5,8 @@ import {
   createPost,
   editPost,
   deletePost,
-} from '../controllers/postsController'
+} from '../controllers/postsController.js'
+
 const posts = express.Router()
 
 posts.get('/', getPosts)
@@ -17,4 +18,5 @@ posts.post('/newpost', createPost)
 posts.patch('/:id/edit', editPost)
 
 posts.delete('/:id/delete', deletePost)
+
 export default posts

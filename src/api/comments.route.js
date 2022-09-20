@@ -4,7 +4,7 @@ import {
   createComment,
   editComment,
   deleteComment,
-} from '../controllers/commentsController'
+} from '../controllers/commentsController.js'
 const comments = express.Router()
 
 comments.get('/', getComments)
