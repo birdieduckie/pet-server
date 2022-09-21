@@ -26,18 +26,19 @@ export const getPost = async (req, res) => {
 
 // create a new post
 export const createPost = async (req, res) => {
-  const { text, img, likes, tags, createdAt, owner } = req.body
+  const { text, img, likes, createdAt, owner } = req.body
 
   try {
     const post = await Post.create({
       text,
       img,
       likes,
-      tags,
       createdAt,
       owner,
     })
+    console.log(post)
     res.status(200).json(post)
+    res.send(post)
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
@@ -62,16 +63,18 @@ export const deletePost = async (req, res) => {
 // update post
 export const editPost = async (req, res) => {
   const { id } = req.params
+  const { text } = req.body
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'No such post' })
   }
 
-  const post = await Post.findByIdAndUpdate(id, { ...req.body })
+  const post = await Post.findByIdAndUpdate(id, { text })
 
   if (!post) {
     return res.status(404).json({ error: 'No such post' })
   }
+  res.send(post)
 
   res.status(200).json(post)
 }

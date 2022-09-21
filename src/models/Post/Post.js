@@ -16,12 +16,12 @@ const postSchema = new Schema({
     required: true,
     default: 0,
   },
-  tags: {
-    type: [String],
-  },
+  // tags: {
+  //   type: [String],
+  // },
   createdAt: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    default: Date.now(),
   },
   owner: {
     type: Schema.Types.ObjectId,

@@ -11,11 +11,11 @@ const posts = express.Router()
 
 posts.get('/', getPosts)
 
-posts.get('/:id', getPost)
+posts.get('/post/:id', getPost)
 
 posts.post('/newpost', createPost)
 
-posts.patch('/:id/edit', editPost)
+posts.patch('/post/:id/edit', editPost)
 
 posts.delete('/:id/delete', deletePost)
 
