@@ -11,11 +11,14 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  likes: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
+  likes: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+    },
+  ],
   // tags: {
   //   type: [String],
   // },
@@ -27,6 +30,18 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  comments: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+      text: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 })
 
 export const Post = mongoose.model('Post', postSchema)

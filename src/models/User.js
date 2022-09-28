@@ -32,6 +32,12 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Post',
   },
+  roles: [
+    {
+      type: String,
+      ref: 'role',
+    },
+  ],
 })
 
 export const User = mongoose.model('User', userSchema)

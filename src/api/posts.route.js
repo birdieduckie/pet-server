@@ -17,6 +17,6 @@ posts.post('/newpost', createPost)
 
 posts.patch('/post/:id/edit', editPost)
 
-posts.delete('/:id/delete', deletePost)
+posts.delete('/', deletePost)
 
 export default posts

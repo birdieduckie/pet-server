@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Post } from '../models/Post/Post.js'
+import { Post } from '../models/Post.js'
 
 // get all posts
 export const getPosts = async (req, res) => {
