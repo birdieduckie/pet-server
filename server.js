@@ -22,9 +22,9 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/users', users)
-app.use('/api/v1/', posts)
-// app.use('/api/v1/comments', comments)
-app.use('/api/v1/auth', auth) 
+app.use('/api/v1/posts', posts)
+app.use('/api/v1/comments', comments)
+app.use('/api/v1/auth', auth)
 // ???
 app.use('*', (req, res) => res.status(404).json({ error: 'not found' }))
 

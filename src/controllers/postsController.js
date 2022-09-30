@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { Post } from '../models/Post.js'
+import { User } from '../models/User.js'
 
 // get all posts
 export const getPosts = async (req, res) => {
@@ -26,7 +27,7 @@ export const getPost = async (req, res) => {
 
 // create a new post
 export const createPost = async (req, res) => {
-  const { text, img, likes, createdAt, owner } = req.body
+  const { text, img } = req.body
 
   try {
     const post = await Post.create({
@@ -34,7 +35,7 @@ export const createPost = async (req, res) => {
       img,
       likes,
       createdAt,
-      owner,
+      owner: req.user.id,
     })
     console.log(post)
     res.status(200).json(post)
@@ -52,6 +53,18 @@ export const deletePost = async (req, res) => {
     return res.status(404).json({ error: 'No such post' })
   }
 
+  const user = await User.findById(req.user.id)
+
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  if (post.owner.toString() !== user.id) {
+    res.status(401)
+    throw new Error("Cannot edit other users's posts")
+  }
+
   const post = await Post.findByIdAndDelete(id)
 
   if (!post) {
@@ -67,6 +80,18 @@ export const editPost = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'No such post' })
+  }
+
+  const user = await User.findById(req.user.id)
+
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  if (post.owner.toString() !== user.id) {
+    res.status(401)
+    throw new Error("Cannot edit other users's posts")
   }
 
   const post = await Post.findByIdAndUpdate(id, { text })

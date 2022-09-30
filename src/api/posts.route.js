@@ -6,17 +6,18 @@ import {
   editPost,
   deletePost,
 } from '../controllers/postsController.js'
+import { authMiddleware } from '../middleware/authMiddleware.js'
 
 const posts = express.Router()
 
 posts.get('/', getPosts)
 
-posts.get('/post/:id', getPost)
+posts.get('/:id', authMiddleware, getPost)
 
-posts.post('/newpost', createPost)
+posts.post('/newpost', authMiddleware, createPost)
 
-posts.patch('/post/:id/edit', editPost)
+posts.patch('/:id/edit', authMiddleware, editPost)
 
-posts.delete('/', deletePost)
+posts.delete('/', authMiddleware, deletePost)
 
 export default posts
