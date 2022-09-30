@@ -23,11 +23,9 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Please enter a valid password'],
     minlength: [8, 'Minimum password length must be 8 characters'],
+    select: false,
   },
-  registerdate: {
-    type: Date,
-    default: Date.now,
-  },
+
   posts: {
     type: Schema.Types.ObjectId,
     ref: 'Post',

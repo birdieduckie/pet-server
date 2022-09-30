@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 // import dotenv from 'dotenv'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { User } from '../models/User.js'
 
@@ -28,49 +28,85 @@ export const getUser = async (req, res) => {
   res.status(200).json(user)
 }
 
+export const getMe = async (req, res) => {
+  const { _id, username, email } = await User.findById(req.user.id)
+
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  })
+}
+
 // create a new user
 export const createUser = async (req, res) => {
   const { username, avatar, email, password, registerdate } = req.body
-  const candidate = await User.findOne({ email, username })
+  const userExists = await User.findOne({ email, username })
 
-  if (candidate) {
+  if (userExists) {
     return res.status(400).json({ error: 'User already exists' })
   }
 
   try {
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    console.log(hashedPassword)
+
     const user = await User.create({
       username,
       avatar,
       email,
-      password,
+      password: hashedPassword,
       registerdate,
     })
 
-    user.password = bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(password, salt)
-    })
+    if (user) {
+      res.status(201).json({
+        _id: user.id,
+        username: user.username,
+        email: user.username,
+        token: generateToken(user._id),
+      })
+    }
 
     user.save()
 
-    const secret = process.env.JWT_SECRET
-
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    }
-
-    jwt.sign(payload, secret, (err, token) => {
-      if (err) throw err
-      res.json({ token })
-    })
-
     // res.status(200).json(newUser)
-
-    // res.send('User registered')
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
+}
+
+export const userLogin = async (req, res) => {
+  const { email, password } = req.body
+
+  try {
+    const user = await User.findOne({ email })
+
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Wrong credentials' })
+    }
+
+    if (user && isMatch) {
+      res.json({
+        _id: user.id,
+        username: user.username,
+        email: user.email,
+        token: generateToken(user._id),
+      })
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
+}
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  })
 }
 
 // delete user
