@@ -11,14 +11,10 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  likes: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-      },
-    },
-  ],
+  likes: {
+    type: Number,
+    default: 0,
+  },
   // tags: {
   //   type: [String],
   // },
@@ -41,6 +37,7 @@ const postSchema = new Schema({
         type: String,
         required: true,
       },
+      default: [],
     },
   ],
 })

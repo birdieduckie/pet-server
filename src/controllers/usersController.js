@@ -22,7 +22,7 @@ export const getUser = async (req, res) => {
   const user = await User.findById(id)
 
   if (!user) {
-    return res.status(404).json({ error: 'No such user' })
+    return res.status(404).json({ error: 'Cannot find such user' })
   }
 
   res.status(200).json(user)
@@ -33,7 +33,7 @@ export const getMe = async (req, res) => {
 
   res.status(200).json({
     id: _id,
-    name,
+    username,
     email,
   })
 }

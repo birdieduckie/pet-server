@@ -77,29 +77,38 @@ export const deletePost = async (req, res) => {
 export const editPost = async (req, res) => {
   const { id } = req.params
   const { text } = req.body
+  console.log(req.body)
+  console.log(req.params)
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(404).json({ error: 'No such post' })
+  // }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'No such post' })
-  }
+  // const user = await User.findById(req.user.id)
 
-  const user = await User.findById(req.user.id)
+  // if (!user) {
+  //   res.status(401)
+  //   throw new Error('User not found')
+  // }
 
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
-
-  if (post.owner.toString() !== user.id) {
-    res.status(401)
-    throw new Error("Cannot edit other users's posts")
-  }
-
-  const post = await Post.findByIdAndUpdate(id, { text })
+  // if (post.owner.toString() !== user.id) {
+  //   res.status(401)
+  //   throw new Error("Cannot edit other users's posts")
+  const post = await Post.findOneAndUpdate(
+    id,
+    { text: text },
+    {
+      new: true,
+    }
+  )
 
   if (!post) {
     return res.status(404).json({ error: 'No such post' })
   }
-  res.send(post)
+  post.save()
 
-  res.status(200).json(post)
+  console.log(post.text)
+
+  res.send(post)
 }
+
+export const likePost = async (req, res) => {}

@@ -21,10 +21,10 @@ users.get('/me', authMiddleware, getMe)
 
 users.post('/signup', createUser)
 
-users.post('/login', userLogin)
+users.post('/login', authMiddleware, userLogin)
 
-users.delete('/:id/delete', deleteUser)
+users.delete('/:id/delete', authMiddleware, deleteUser)
 
-users.patch('/:id/edit', editUser)
+users.patch('/:id/edit', authMiddleware, editUser)
 
 export default users

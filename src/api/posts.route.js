@@ -16,7 +16,7 @@ posts.get('/:id', authMiddleware, getPost)
 
 posts.post('/newpost', authMiddleware, createPost)
 
-posts.patch('/:id/edit', authMiddleware, editPost)
+posts.patch('/:id/edit', editPost)
 
 posts.delete('/', authMiddleware, deletePost)
 
