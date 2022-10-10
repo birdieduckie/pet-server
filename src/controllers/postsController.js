@@ -27,15 +27,15 @@ export const getPost = async (req, res) => {
 
 // create a new post
 export const createPost = async (req, res) => {
-  const { text, img } = req.body
+  const { text, img, username, createdAt } = req.body
 
   try {
+    const owner = await User.findOne({ username })
     const post = await Post.create({
       text,
       img,
-      likes,
       createdAt,
-      owner: req.user.id,
+      owner: owner.id,
     })
     console.log(post)
     res.status(200).json(post)
@@ -48,27 +48,28 @@ export const createPost = async (req, res) => {
 // delete post
 export const deletePost = async (req, res) => {
   const { id } = req.params
+  console.log(req.params)
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'No such post' })
-  }
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(404).json({ error: 'Unfortunately No such post' })
+  // }
 
-  const user = await User.findById(req.user.id)
+  // const user = await User.findById(req.user.id)
 
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
+  // if (!user) {
+  //   res.status(401)
+  //   throw new Error('User not found')
+  // }
 
-  if (post.owner.toString() !== user.id) {
-    res.status(401)
-    throw new Error("Cannot edit other users's posts")
-  }
+  // if (post.owner.toString() !== user.id) {
+  //   res.status(401)
+  //   throw new Error("Cannot delete other users's posts")
+  // }
 
   const post = await Post.findByIdAndDelete(id)
 
   if (!post) {
-    return res.status(404).json({ error: 'No such post' })
+    return res.status(404).json({ error: 'oh no...not found' })
   }
 
   res.status(200).json(post)
@@ -79,9 +80,9 @@ export const editPost = async (req, res) => {
   const { text } = req.body
   console.log(req.body)
   console.log(req.params)
-  // if (!mongoose.Types.ObjectId.isValid(id)) {
-  //   return res.status(404).json({ error: 'No such post' })
-  // }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'No such post' })
+  }
 
   // const user = await User.findById(req.user.id)
 

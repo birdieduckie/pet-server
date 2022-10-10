@@ -14,10 +14,10 @@ posts.get('/', getPosts)
 
 posts.get('/:id', authMiddleware, getPost)
 
-posts.post('/newpost', authMiddleware, createPost)
+posts.post('/newpost', createPost)
 
 posts.patch('/:id/edit', editPost)
 
-posts.delete('/', authMiddleware, deletePost)
+posts.delete('/:id/delete', deletePost)
 
 export default posts
