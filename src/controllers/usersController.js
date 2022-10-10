@@ -41,6 +41,7 @@ export const getMe = async (req, res) => {
 // create a new user
 export const createUser = async (req, res) => {
   const { username, avatar, email, password, registerdate } = req.body
+  console.log(req.body)
   const userExists = await User.findOne({ email, username })
 
   if (userExists) {
