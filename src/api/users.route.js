@@ -21,7 +21,7 @@ users.get('/me', authMiddleware, getMe)
 
 users.post('/signup', createUser)
 
-users.post('/login', authMiddleware, userLogin)
+users.post('/login', userLogin)
 
 users.delete('/:id/delete', authMiddleware, deleteUser)
 

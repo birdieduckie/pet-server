@@ -80,23 +80,22 @@ export const createUser = async (req, res) => {
 }
 
 export const userLogin = async (req, res) => {
-  const { email, password } = req.body
+  const { username, password } = req.body
 
   try {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ username }).select('password')
 
     const isMatch = await bcrypt.compare(password, user.password)
-
+    console.log(isMatch)
     if (!isMatch) {
       return res.status(400).json({ error: 'Wrong credentials' })
     }
 
     if (user && isMatch) {
-      res.json({
+      res.status(200).json({
         _id: user.id,
         username: user.username,
-        email: user.email,
-        token: generateToken(user._id),
+        token: generateToken(user.id),
       })
     }
   } catch (error) {
